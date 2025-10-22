@@ -95,6 +95,15 @@ st.markdown(f"""
         margin-bottom: 1rem !important;
     }}
 
+    /* Sidebar Arrow/Toggle Button */
+    [data-testid="collapsedControl"] {{
+        color: {PRIMARY_COLOR} !important;
+    }}
+    
+    [data-testid="collapsedControl"]:hover {{
+        color: {ACCENT_COLOR} !important;
+    }}
+    
     /* Sidebar Professional Styling */
     [data-testid="stSidebar"] {{
         background: {SECONDARY_COLOR} !important;
