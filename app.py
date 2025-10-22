@@ -1,3 +1,7 @@
+import os
+os.environ["OPENCV_VIDEOIO_PRIORITY_MSMF"] = "0"
+os.environ["OPENCV_OPENGL_RUNTIME"] = "0"
+
 import streamlit as st
 import cv2
 import numpy as np
@@ -282,9 +286,21 @@ st.markdown("""
 
 @st.cache_resource
 def load_model():
-    return YOLO("yolov8n.pt")
+    """Load YOLOv8 model from local file"""
+    try:
+        model = YOLO("yolov8n.pt")  # Use local file
+        return model
+    except Exception as e:
+        st.error(f"Error loading model: {e}")
+        st.info("Please ensure 'yolov8n.pt' is in the same directory as this script.")
+        return None
 
 model = load_model()
+
+# Check if model loaded successfully
+if model is None:
+    st.stop()
+
 CLASS_NAMES = list(model.names.values())
 
 # ---------------------- SIDEBAR DETECTION SETTINGS ----------------------
@@ -517,4 +533,5 @@ else:
         <h3 style='color: #64748B; font-weight: 400;'>Ready to Begin</h3>
         <p style='color: #94A3B8; font-size: 1.1rem;'>Upload images above to start AI-powered annotation</p>
     </div>
+
     """, unsafe_allow_html=True)
